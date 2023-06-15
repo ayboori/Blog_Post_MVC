@@ -63,15 +63,19 @@ public class PostController {
     //    - 수정을 요청할 때 수정할 데이터와 비밀번호를 같이 보내서 서버에서 비밀번호 일치 여부를 확인 한 후
     //    - 제목, 작성자명, 작성 내용을 수정하고 수정된 게시글을 Client 로 반환하기
     @PutMapping("/posts/{id}")
-    public Long updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
+    public PostResponseDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
         // 해당 메모가 DB에 존재하는지 확인
-        if(postList.containsKey(id)) {
+        if(postList.containsKey(id) && postList.get(id).getPassword().equals(requestDto.getPassword())) {
             // 해당 메모 가져오기
             Post post = postList.get(id);
 
             // Post 수정
             post.update(requestDto);
-            return post.getId();
+
+            // 반환 객체에 세팅
+            PostResponseDto postResponseDto = new PostResponseDto(post);
+
+            return postResponseDto;
         } else {
             throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
         }
@@ -81,9 +85,9 @@ public class PostController {
     //    - 삭제를 요청할 때 비밀번호를 같이 보내서 서버에서 비밀번호 일치 여부를 확인 한 후
     //    - 선택한 게시글을 삭제하고 Client 로 성공했다는 표시 반환하기
     @DeleteMapping("/posts/{id}")
-    public String deletePost(@PathVariable Long id,@RequestBody String password) {
+    public String deletePost(@PathVariable Long id,@RequestParam String password) {
         // 해당 메모가 DB에 존재하는지 확인
-        if(postList.containsKey(id)) {
+        if(postList.containsKey(id) && postList.get(id).getPassword().equals(password) ) {
             // 해당 메모 삭제하기
             postList.remove(id);
             return "삭제 성공했습니다.";
@@ -91,5 +95,4 @@ public class PostController {
             throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
         }
     }
-
 }
