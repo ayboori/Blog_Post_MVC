@@ -40,9 +40,9 @@ public class PostController {
 
     // 선택한 게시글 수정 API
     @PutMapping("/posts/{id}")
-    public PostResponseDto updatePost(@PathVariable Long id, @RequestParam String password, @RequestBody PostRequestDto requestDto) {
+    public PostResponseDto updatePost(@PathVariable Long id, @RequestParam String password) {
         PostService postService = new PostService(jdbcTemplate);
-        return postService.updatePost(id, password, requestDto);
+        return postService.updatePost(id, password);
     }
 
     // 선택한 게시글 삭제 API

@@ -20,7 +20,7 @@ public class PostService {
     // 게시글 작성 API
     //    - 제목, 작성자명, 비밀번호, 작성 내용을 저장하고
     //    - 저장된 게시글을 Client 로 반환하기
-    public PostResponseDto createPost(PostRequestDto requestDto){
+    public PostResponseDto createPost(PostRequestDto requestDto) {
         // RequestDto -> Entity
         Post post = new Post(requestDto);
 
@@ -31,7 +31,7 @@ public class PostService {
         // Entity -> ResponseDto
         PostResponseDto PostResponseDto = new PostResponseDto(savePost);
 
-            return PostResponseDto;
+        return PostResponseDto;
     }
 
     // 전체 게시글 목록 조회 API
@@ -55,21 +55,22 @@ public class PostService {
     // 선택한 게시글 수정 API
     //    - 수정을 요청할 때 수정할 데이터와 비밀번호를 같이 보내서 서버에서 비밀번호 일치 여부를 확인 한 후
     //    - 제목, 작성자명, 작성 내용을 수정하고 수정된 게시글을 Client 로 반환하기
-    public PostResponseDto updatePost(Long id, String password, PostRequestDto requestDto) {
+    public PostResponseDto updatePost(Long id, String password) {
         PostRepository postRepository = new PostRepository(jdbcTemplate);
 
         // 해당 메모가 DB에 존재하는지 확인
         Post post1 = postRepository.findById(id);
 
-        if (postList.containsKey(id) && postList.get(id).getPassword().equals(requestDto.getPassword())) {
+        if (postList.containsKey(id) && postList.get(id).getPassword().equals(password)) {
             // 해당 메모 가져오기
             Post post = postList.get(id);
+            PostRequestDto requestDto = new PostRequestDto(post);
 
             // Post 수정
             postRepository.update(id, password, requestDto);
 
-            PostResponseDto responseDto = new PostResponseDto(post);
-            return responseDto;
+            PostResponseDto postResponseDto = new PostResponseDto(post);
+            return postResponseDto;
         } else {
             throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
         }
@@ -82,11 +83,9 @@ public class PostService {
         PostRepository postRepository = new PostRepository(jdbcTemplate);
 
         // 해당 메모가 DB에 존재하는지 확인
-        if(postList.containsKey(id) && postList.get(id).getPassword().equals(password) ) {
+        if (postList.containsKey(id) && postList.get(id).getPassword().equals(password)) {
             // 해당 메모 삭제하기
             postRepository.delete(id);
-
-
             return "삭제 성공했습니다.";
         } else {
             throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");

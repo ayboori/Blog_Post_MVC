@@ -18,7 +18,15 @@ public class PostRequestDto {
     private String title;
     private String userName;
     private String content;
-    private String writeDate;
     private String password;
-    private String textDate;
+    private String localDate;
+
+    public PostRequestDto(Post post) {
+        this.id = post.getId();
+        this.title = post.getTitle();
+        this.userName = post.getUserName();
+        this.content = post.getContent();
+        this.password = post.getPassword();
+        this.localDate = post.getTextDate();
+    }
 }

@@ -18,10 +18,8 @@ public class PostResponseDto{
     private String title;
     private String userName;
     private String content;
-    private String writeDate;
     private String password;
-    private LocalDate localDate;
-    private String textDate;
+    private String localDate;
 
     public PostResponseDto(Post post) {
         this.id = post.getId();
@@ -29,13 +27,13 @@ public class PostResponseDto{
         this.userName = post.getUserName();
         this.content = post.getContent();
         this.password = post.getPassword();
-        this.textDate = post.getTextDate();
+        this.localDate = post.getTextDate();
     }
 
-    public PostResponseDto(Long id, String userName, String content, String textDate) {
+    public PostResponseDto(Long id, String userName, String content, String localDate) {
         this.id = id;
         this.userName = userName;
         this.content = content;
-        this.textDate = textDate;
+        this.localDate = localDate;
     }
 }

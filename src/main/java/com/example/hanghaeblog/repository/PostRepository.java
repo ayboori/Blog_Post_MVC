@@ -28,7 +28,7 @@ public class PostRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder(); // 기본 키를 반환받기 위한 객체
 
         // 데이터 삽입
-        String sql = "INSERT INTO Post (title, userName, password, content) VALUES (?, ?, ? , ?)";
+        String sql = "INSERT INTO post (title, userName, password, content) VALUES (?, ?, ? ,?)";
         jdbcTemplate.update(con -> {
                     PreparedStatement preparedStatement = con.prepareStatement(sql,
                             Statement.RETURN_GENERATED_KEYS);
@@ -51,25 +51,27 @@ public class PostRepository {
 
     public List<PostResponseDto> findAll() {
         // DB 조회
-        String sql = "SELECT * FROM Post";
+        String sql = "SELECT * FROM post";
 
         return jdbcTemplate.query(sql, new RowMapper<PostResponseDto>() {
             @Override
             public PostResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
                 // SQL 의 결과로 받아온 Post 데이터들을 PostResponseDto 타입으로 변환해줄 메서드
                 Long id = rs.getLong("id");
+               String title = rs.getString("title");
+                String password = rs.getString("password");
                 String userName = rs.getString("username");
                 String content = rs.getString("content");
                 String localDate = rs.getString("localDate");
-                return new PostResponseDto(id, userName, content, localDate);
+                return new PostResponseDto(id,title, userName, password,content, localDate);
             }
         });
     }
 
     // 수정
     public void update(Long id, String password, PostRequestDto requestDto) {
-        String sql = "UPDATE Post SET title = ?, username = ?, content = ? WHERE id = ?";
-        jdbcTemplate.update(sql, requestDto, requestDto.getTitle(), requestDto.getUserName(), requestDto.getContent(), id);
+        String sql = "UPDATE Post SET title = ?, username = ?, content = ? WHERE id = ?, password = ?";
+        jdbcTemplate.update(sql, requestDto, requestDto.getTitle(), requestDto.getUserName(), requestDto.getContent(), id, password);
     }
 
     public void delete(Long id) {
@@ -79,7 +81,7 @@ public class PostRepository {
 
     public Post findById(Long id) {
         // DB 조회
-        String sql = "SELECT * FROM Post WHERE id = ?";
+        String sql = "SELECT * FROM post WHERE id = ?";
 
         return jdbcTemplate.query(sql, resultSet -> {
             if (resultSet.next()) {

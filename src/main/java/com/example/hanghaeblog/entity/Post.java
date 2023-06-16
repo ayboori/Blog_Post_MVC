@@ -21,7 +21,6 @@ public class Post {
     private String userName;
     private String content;
     private LocalDate localDate;
-    private String textDate;
     private String password;
 
     public Post(PostRequestDto requestDto) {
@@ -29,11 +28,8 @@ public class Post {
         this.userName = requestDto.getUserName();
         this.content = requestDto.getContent();
         this.password = requestDto.getPassword();
-
         this.localDate = LocalDate.now();  // 현재 시간
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        this.textDate = localDate.format(formatter);
     }
 
     public void update(PostRequestDto postRequestDto) {
@@ -41,7 +37,15 @@ public class Post {
         this.title = postRequestDto.getTitle();
         this.userName = postRequestDto.getUserName();
         this.content = postRequestDto.getContent();
+
+        this.localDate = LocalDate.now();  // 현재 시간
+
+
     }
 
+    public String getTextDate(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        return localDate.format(formatter);
+    }
 
 }
