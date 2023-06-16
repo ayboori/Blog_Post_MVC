@@ -21,7 +21,7 @@ public class Post {
     private String userName;
     private String content;
     private LocalDate localDate;
-    private String writeDate;
+    private String textDate;
     private String password;
 
     public Post(PostRequestDto requestDto) {
@@ -33,8 +33,7 @@ public class Post {
         this.localDate = LocalDate.now();  // 현재 시간
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        // 포맷 정의 포맷은 연/월/일
-        this.writeDate = this.localDate.format(formatter); // 포맷 적용, 변수 저장
+        this.textDate = localDate.format(formatter);
     }
 
     public void update(PostRequestDto postRequestDto) {

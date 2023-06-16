@@ -20,5 +20,5 @@ public class PostRequestDto {
     private String content;
     private String writeDate;
     private String password;
-    private LocalDate localDate;
+    private String textDate;
 }

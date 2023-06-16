@@ -21,14 +21,21 @@ public class PostResponseDto{
     private String writeDate;
     private String password;
     private LocalDate localDate;
+    private String textDate;
 
     public PostResponseDto(Post post) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.userName = post.getUserName();
         this.content = post.getContent();
-        this.writeDate = post.getWriteDate();
         this.password = post.getPassword();
-        this.localDate = post.getLocalDate();
+        this.textDate = post.getTextDate();
+    }
+
+    public PostResponseDto(Long id, String userName, String content, String textDate) {
+        this.id = id;
+        this.userName = userName;
+        this.content = content;
+        this.textDate = textDate;
     }
 }
