@@ -39,8 +39,6 @@ public class Post {
         this.content = postRequestDto.getContent();
 
         this.localDate = LocalDate.now();  // 현재 시간
-
-
     }
 
     public String getTextDate(){

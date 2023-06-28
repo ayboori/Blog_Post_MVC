@@ -39,6 +39,8 @@ public class PostController {
     }
 
     // 선택한 게시글 수정 API
+    // 토큰을 검사한 후, 유효한 토큰이면서 해당 사용자가 작성한 게시글만 수정 가능
+    // 제목, 작성 내용을 수정하고 수정된 게시글을 Client 로 반환하기
     @PutMapping("/posts/{id}")
     public PostResponseDto updatePost(@PathVariable Long id, @RequestParam String password) {
         PostService postService = new PostService(jdbcTemplate);

@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.*;
 
 public class PostService {
-
     private final Map<Long, Post> postList = new HashMap<>();
     private final JdbcTemplate jdbcTemplate;
 
@@ -17,9 +16,17 @@ public class PostService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+
+
+
     // 게시글 작성 API
     //    - 제목, 작성자명, 비밀번호, 작성 내용을 저장하고
     //    - 저장된 게시글을 Client 로 반환하기
+
+    // 변경 부분
+    // - 토큰을 검사하여, 유효한 토큰일 경우에만 게시글 작성 가능
+    //- 제목, 작성 내용을 저장
+    // 저장된 게시글을 Client 로 반환하기(username은 로그인 된 사용자)
     public PostResponseDto createPost(PostRequestDto requestDto) {
         // RequestDto -> Entity
         Post post = new Post(requestDto);
